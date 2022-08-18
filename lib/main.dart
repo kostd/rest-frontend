@@ -1,115 +1,93 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
+import 'package:logging/logging.dart';
+import 'package:rest_frontend/config/theme_consts.dart';
+import 'package:rest_frontend/presentation/dialogs/error_dialog.dart';
+import 'package:rest_frontend/presentation/logic/application_cubit.dart';
+import 'package:rest_frontend/presentation/pages/dish_page.dart';
+import 'package:rest_frontend/presentation/pages/menu_page.dart';
+
+import 'injector.dart';
+import 'presentation/state/application_state.dart';
 
 void main() {
-  runApp(const MyApp());
+  initializeDependencies();
+  initializeLogging();
+  Logger log = Logger("main.dart");
+  log.info("logging initialized!");
+  Get.put(Get.createDelegate());
+  log.info("Инициализация выполнена.");
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  /// Будем сраазу использовать навигацию 2.0 (она же navigator 2.0, nav2 или router).
+  /// Т.к. навигация 1.0 позволяла все, кроме restore маршрутов после f5 в браузере. А наша основная цель -- веб,
+  /// поэтому нам совершенно необходимо восстанавливать маршруты после f5. Для переезда на nav2 надо 1) не использовать
+  /// onGenerateRoute (вместто него карта staticRoutes); 2) создавать GetMaterialApp
+  /// не дефолтным конструктором, а его вариантом GetMaterialApp.router и 3) выполнять pushNamed и pop не через static-методы
+  /// Navigator`а, а через (доступный через Get.find благодаря put`у здесь) GetDelegate (использовать методы toNamed и popRoute
+  /// соответственно). Теперь после f5 работает как программный pop, так и браузерный back, причем используем штатные возможности
+  /// библиотки Get, ничего дополнительно подключать не пришлось.
+  /// #TODO: пока не работает deep linking в смысле параметров в url, параметры передаются не через url (см. например открытие
+  /// DishPage из карточки блюдаа в списке-меню). Пока вроде и не надо.
+  final GetDelegate _routerDelegate = Get.find();
+
+  final ApplicationCubit _applicationCubit = Get.find();
+
+  /// карта всех маршрутов. Если сделал новую страничку, добавь маршрут к ней суда
+  final Map<String, Widget> staticRoutes = {
+    '/': const MenuPage(
+      title: 'Ресторан "Наше время"',
+    ),
+    MenuPage.routeName: const MenuPage(
+      title: 'Ресторан "Наше время"',
+    ),
+    DishPage.routeName: const DishPage(title: "Блюдо ресторана Наше Время>"),
+  };
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+    return Builder(builder: (context) {
+      // что интересно, здесь GetBuilder объявлен снаружи GetMaterialApp, и все равно работает!
+      return BlocBuilder<ApplicationCubit, ApplicationState>(
+          bloc: _applicationCubit,
+          builder: (context, state) {
+            return GetMaterialApp.router(
+              title: 'Наше время',
+              themeMode: state.themeMode,
+              theme: ThemeConsts.lightThemeData.copyWith(
+                platform: defaultTargetPlatform,
+              ),
+              routerDelegate: _routerDelegate,
+              getPages: List.of(staticRoutes.entries.map((e) {
+                return GetPage(
+                    // navigator2 (он же router) ожидает, что маршруты начинаются со слеша "/" (а navigator1 наоборот)
+                    name: e.key.startsWith("/") ? e.key : "/" + e.key,
+                    page: () {
+                      // #TODO: если нужно не показывать страницу без аутентификации,
+                      // то эту логику можно написать тут
+                      return e.value;
+                    });
+              })),
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                // из-за ошбики "A CupertinoLocalizations delegate that supports the ru locale was not found."
+                // по примеру из https://docs.flutter.dev/development/accessibility-and-localization/internationalization
+                GlobalCupertinoLocalizations.delegate
+              ],
+              supportedLocales: const [Locale('ru')],
+              darkTheme: ThemeConsts.darkThemeData.copyWith(
+                platform: defaultTargetPlatform,
+              ),
+            );
+          });
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
   }
 }

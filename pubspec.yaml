@@ -29,11 +29,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+    # позволяет подключить (в main.dart) локаль ru_RU. Все third-party виджеты,
+    # опирающиеся на локаль, будут работать правильно.
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # state management
+  flutter_bloc: ^8.0.1
+  # от get хотим навигацию по правилам 2.0(router), dependency injection
+  get: any
+  # для работы isDisplayDesktop
+  adaptive_breakpoints: ^0.1.4
+  # индикатор прогресса на время всяких ожиданий
+  percent_indicator: ^4.2.2
+  # самый легковесный вариант логгирования
+  logging: ^1.0.2
+  # позволяет открываать браузер, телефон и другие приложения
+  # (не только на носимых устройствах, но и зачастую на компе)
+  url_launcher: ^6.1.5
+  # шрифты
+  google_fonts: ^2.0.0
+  # pure google_fonts не поддерживают кириллицу у многих шрифтов
+  # просто отображает в дефолтном Roboto. Пришлось подключить это.
+  google_language_fonts: ^2.0.0
+  #подсветка результатов поиска в меню
+  substring_highlight: ^1.0.33
+
 
 dev_dependencies:
   flutter_test:
@@ -58,9 +83,22 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - images/temp.jpg
+    - images/skyscraper.png
+    - images/list.png
+    - images/foodcart.png
+    - images/phone.png
+    # иконки категорий
+    - images/categories/cold-snacks.png
+    - images/categories/soups.png
+    - images/categories/hot-dishes.png
+    - images/categories/salads.png
+    - images/categories/fire-dishes.png
+    - images/categories/pizza.png
+    - images/categories/pasta.png
+    - images/categories/bread.png
+    - images/categories/hot-snacks.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
