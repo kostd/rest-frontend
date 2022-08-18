@@ -1,9 +1,9 @@
 # kostd`s restaurant-frontend
 
 Заготовка frontend для ресторана с меню и заказами.
-Визуальный ux-дизайн навеян приложением  YamiYami, https://yamiyami.ru/
-Частично переиспользованы компоненты, ранее разработанные для tasklist_lite, https://github.com/argustelecom/tasklist_lite
-Использованы бесплатные иконки <a href="https://www.flaticon.com/free-icons/town" title="Flaticon icons">с ресурса Flaticon</a>
+Визуальный ux-дизайн навеян приложением  YamiYami, https://yamiyami.ru/ .
+Частично переиспользованы компоненты, ранее разработанные для tasklist_lite, https://github.com/argustelecom/tasklist_lite.
+Использованы бесплатные иконки <a href="https://www.flaticon.com/" title="Flaticon icons">с ресурса Flaticon</a>.
 
 # Особенности && фиченьки
 - state management с использованием cubit и flutter_bloc
@@ -43,9 +43,9 @@ feature не имеет смысла. После появления следую
 
 ### data
 Слой data в терминах чистой архитектуры.
-Может зависеть от conf, core и слоя domain. Ничего не знает про presentation, как и presentation не знает про data.
 Содержит реализацию репозиториев, интерфейсная часть которых размещена в слое domain (см. далее).
 Также содержит реализацию двух вариантов доступа к данным: фикстуры (в демо-режиме) и remote-graphql-клиенты.
+Может зависеть от conf, core и слоя domain. Ничего не знает про presentation, как и presentation не знает про data.
 
 ### domain
 Может зависеть от core и conf. Остальные слои (data и presentation) зависят от него. 
@@ -62,5 +62,12 @@ feature не имеет смысла. После появления следую
  - state -- классы, описывающие состояние приложения.
  - logic -- содержит логику представления. Разработчики bloc почему-то называют это бизнес-логикой (bloc  -- business logic component), но это вопрос дискуссионный.
    
+### скриншоты
+
+![Тебе лень запускать приложение, да?](https://github.com/kostd/rest_frontend/blob/master/images/screenshots/first.png)
+![Не ленись, бакенд не нужен, есть деморежим!](https://github.com/kostd/rest_frontend/blob/master/images/screenshots/second.png)
+
+
+
 
 
