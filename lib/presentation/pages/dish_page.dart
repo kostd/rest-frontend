@@ -64,7 +64,10 @@ class _DishPageState extends State<DishPage> {
               Positioned(
                   right: 4,
                   child: IconButton(
-                    icon: const Icon(Icons.cancel),
+                    icon: const Icon(
+                      Icons.cancel,
+                    ),
+                    color: Theme.of(context).colorScheme.onPrimary,
                     onPressed: () {
                       GetDelegate routerDelegate = Get.find();
                       routerDelegate.popRoute();

@@ -22,7 +22,8 @@ class PriceSelectionWidget extends StatelessWidget {
       WidgetSpan(
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Colors.black54.withOpacity(0.4),
+            backgroundColor:
+                Theme.of(context).colorScheme.onPrimary.withOpacity(0.4),
           ),
           child: Text("+",
               style: TextStyle(

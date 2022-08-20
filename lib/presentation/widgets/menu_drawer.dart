@@ -32,14 +32,14 @@ class MenuDrawer extends StatelessWidget {
               Text(
                 "Меню",
                 style: CyrillicFonts.badScript(
-                    color: Colors.black54,
+                    color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
               if (!isDisplayDesktop(context))
                 IconButton(
                   icon: const Icon(Icons.cancel),
-                  color: Colors.black54,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   onPressed: () {
                     Scaffold.of(context).closeDrawer();
                   },
@@ -96,7 +96,9 @@ class MenuDrawer extends StatelessWidget {
                                 style: CyrillicFonts.badScript(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black54),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimary),
                               ),
                             );
                           },
