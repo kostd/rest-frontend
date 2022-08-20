@@ -58,7 +58,8 @@ dependencies:
   google_language_fonts: ^2.0.0
   #подсветка результатов поиска в меню
   substring_highlight: ^1.0.33
-
+  # graphql
+  graphql_flutter: ^5.1.0
 
 dev_dependencies:
   flutter_test:
