@@ -61,6 +61,16 @@ class MenuDrawer extends StatelessWidget {
                               onTap: () {
                                 _menuCubit.selectCategory(category);
                                 Scaffold.of(context).closeDrawer();
+                                // если drawer открыли не со страницы списка (могли например открыть со страницы блюда),
+                                // перейдем на страницу списка(она у нас дефолтная, homePage)
+                                GetDelegate getDelegate = Get.find();
+                                getDelegate.canPopPage().then(
+                                  (value) {
+                                    if (value) {
+                                      getDelegate.popRoute();
+                                    }
+                                  },
+                                );
                               },
                               child: Text.rich(
                                 TextSpan(children: [

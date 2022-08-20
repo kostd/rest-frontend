@@ -28,4 +28,6 @@ class Dish {
       this.consist,
       this.weight,
       this.desc});
+
+  static final Dish emptyDish = Dish(name: "", cost: 0);
 }

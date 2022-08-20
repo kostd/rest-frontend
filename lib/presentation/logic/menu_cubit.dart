@@ -11,22 +11,28 @@ class MenuCubit extends Cubit<MenuState> {
   final CategoryRepository _categoryRepository = Get.find();
 
   MenuCubit()
-      : super(MenuState(
-            categories: List.of({}),
-            selectedCategory: Category.emptyCategory,
-            searchText: "",
-            dishes: List.of({}))) {}
+      : super(
+          MenuState(
+              categories: List.of({}),
+              selectedCategory: Category.emptyCategory,
+              searchText: "",
+              dishes: List.of({}),
+              selectedDish: Dish.emptyDish),
+        ) {}
 
   ///  начальная инициализация.
   Future<void> init() async {
     List<Category> categories = await _categoryRepository.getAllCategories();
-
+    List<Dish> dishes =
+        categories.isNotEmpty ? categories.first.dishes : List.of({});
     emit(MenuState(
-        categories: categories,
-        selectedCategory:
-            categories.isNotEmpty ? categories.first : Category.emptyCategory,
-        searchText: "",
-        dishes: categories.isNotEmpty ? categories.first.dishes : List.of({})));
+      categories: categories,
+      selectedCategory:
+          categories.isNotEmpty ? categories.first : Category.emptyCategory,
+      searchText: "",
+      dishes: dishes,
+      selectedDish: dishes.isNotEmpty ? dishes.first : Dish.emptyDish,
+    ));
   }
 
   /// фильтровать блюда по тексту, введенному в поле поиска
@@ -54,5 +60,9 @@ class MenuCubit extends Cubit<MenuState> {
     emit(state.copyWith(
         selectedCategory: category,
         dishes: _filterDishes(state.searchText, category.dishes)));
+  }
+
+  void selectDish(Dish dish) {
+    emit(state.copyWith(selectedDish: dish));
   }
 }

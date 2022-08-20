@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:rest_frontend/presentation/state/menu_state.dart';
+import 'package:rest_frontend/presentation/widgets/price_selection_widget.dart';
 import 'package:rest_frontend/presentation/widgets/tight_highlight.dart';
 
 import '../../domain/entities/dish.dart';
@@ -33,6 +34,7 @@ class MenuItemCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                     onTap: () {
+                      _menuCubit.selectDish(dish);
                       GetDelegate routerDelegate = Get.find();
                       routerDelegate.toNamed(DishPage.routeName);
                     },
@@ -66,34 +68,7 @@ class MenuItemCard extends StatelessWidget {
                     flex: 1,
                     child: Text(""),
                   ),
-                  Text.rich(TextSpan(children: [
-                    TextSpan(
-                        text: dish.cost.toString(),
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 20)),
-                    WidgetSpan(
-                        child: Icon(
-                      CupertinoIcons.money_rubl,
-                      color: Theme.of(context).iconTheme.color,
-                      size: 24,
-                    )),
-                    WidgetSpan(
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.black54.withOpacity(0.4),
-                        ),
-                        child: Text("+",
-                            style: TextStyle(
-                                fontSize: 26,
-                                color:
-                                    Theme.of(context).colorScheme.background)),
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                      ),
-                    ),
-                  ])),
+                  PriceSelectionWidget(dish: dish),
                 ],
               )),
           if (dish.consist?.isNotEmpty ?? false)

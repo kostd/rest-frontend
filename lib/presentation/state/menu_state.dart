@@ -15,11 +15,14 @@ class MenuState {
   /// с коллекцией блюд у выбранной категории
   final List<Dish> dishes;
 
+  final Dish selectedDish;
+
   MenuState(
       {required this.categories,
       required this.selectedCategory,
       required this.searchText,
-      required this.dishes});
+      required this.dishes,
+      required this.selectedDish});
 
   // https://www.flutterclutter.dev/flutter/basics/clone-copy-objects-in-dart/2020/1851/
   // сейчас надо написать copyWith вручную, а потом мб подключить генератор (например freezed)
@@ -30,11 +33,13 @@ class MenuState {
       {List<Category>? categories,
       Category? selectedCategory,
       String? searchText,
-      List<Dish>? dishes}) {
+      List<Dish>? dishes,
+      Dish? selectedDish}) {
     return MenuState(
         categories: categories ?? this.categories,
         selectedCategory: selectedCategory ?? this.selectedCategory,
         searchText: searchText ?? this.searchText,
-        dishes: dishes ?? this.dishes);
+        dishes: dishes ?? this.dishes,
+        selectedDish: selectedDish ?? this.selectedDish);
   }
 }

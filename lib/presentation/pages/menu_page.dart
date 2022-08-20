@@ -30,7 +30,6 @@ class MenuPage extends StatelessWidget {
       bloc: menuCubit,
       builder: (context, state) {
         return ReflowingScaffold(
-          // #TODO: зачем здесь row, если только одна иконка отображается?
           appBarLeft: const LogoOurTimes(),
           appBar: isDisplayDesktop(context)
               ? SearchBar()
@@ -44,7 +43,6 @@ class MenuPage extends StatelessWidget {
                   ],
                   elevation: 0,
                 ),
-
           appBarRight: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [
