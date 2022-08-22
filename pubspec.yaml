@@ -60,6 +60,8 @@ dependencies:
   substring_highlight: ^1.0.33
   # graphql
   graphql_flutter: ^5.1.0
+  # resize картинок
+  photo_view: ^0.14.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +92,8 @@ flutter:
     - images/list.png
     - images/foodcart.png
     - images/phone.png
+    - images/profile.png
+    - images/city.png
     # иконки категорий
     - images/categories/cold-snacks.png
     - images/categories/soups.png

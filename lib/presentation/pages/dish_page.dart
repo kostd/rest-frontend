@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import 'package:google_language_fonts/google_language_fonts.dart';
 import 'package:rest_frontend/presentation/logic/menu_cubit.dart';
 import 'package:rest_frontend/presentation/state/menu_state.dart';
+import 'package:rest_frontend/presentation/widgets/buttons/cancel_button.dart';
+import 'package:rest_frontend/presentation/widgets/buttons/profile_button.dart';
 import 'package:rest_frontend/presentation/widgets/price_selection_widget.dart';
 
 import '../../config/adaptive.dart';
 import '../widgets/bars/search_bar.dart';
-import '../widgets/buttons/food_cart_button.dart';
 import '../widgets/buttons/menu_button.dart';
 import '../widgets/buttons/phone_call_button.dart';
 import '../widgets/logo_our_times.dart';
@@ -41,7 +42,7 @@ class _DishPageState extends State<DishPage> {
               centerTitle: true,
               actions: const [
                 PhoneCallButton(),
-                FoodCartButton(),
+                ProfileButton(),
               ],
               elevation: 0,
             ),
@@ -49,7 +50,7 @@ class _DishPageState extends State<DishPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: const [
           PhoneCallButton(),
-          FoodCartButton(),
+          ProfileButton(),
         ],
       ),
       body: BlocBuilder<MenuCubit, MenuState>(
@@ -61,18 +62,7 @@ class _DishPageState extends State<DishPage> {
                 "images/temp.jpg",
                 fit: BoxFit.cover,
               ),
-              Positioned(
-                  right: 4,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.cancel,
-                    ),
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    onPressed: () {
-                      GetDelegate routerDelegate = Get.find();
-                      routerDelegate.popRoute();
-                    },
-                  )),
+              const Positioned(right: 4, child: CancelButton()),
               Positioned(
                 bottom: 2,
                 child: Text(state.selectedDish.name,

@@ -5,11 +5,11 @@ import 'package:rest_frontend/presentation/logic/menu_cubit.dart';
 import 'package:rest_frontend/presentation/state/menu_state.dart';
 import 'package:rest_frontend/presentation/widgets/buttons/menu_button.dart';
 import 'package:rest_frontend/presentation/widgets/buttons/phone_call_button.dart';
+import 'package:rest_frontend/presentation/widgets/buttons/profile_button.dart';
 import 'package:rest_frontend/presentation/widgets/logo_our_times.dart';
 
 import '../../config/adaptive.dart';
 import '../widgets/bars/search_bar.dart';
-import '../widgets/buttons/food_cart_button.dart';
 import '../widgets/menu_item_card.dart';
 import '../widgets/reflowing_scaffold.dart';
 
@@ -17,8 +17,7 @@ import '../widgets/reflowing_scaffold.dart';
 class MenuPage extends StatelessWidget {
   static const String routeName = 'menu';
 
-  const MenuPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class MenuPage extends StatelessWidget {
                   centerTitle: true,
                   actions: const [
                     PhoneCallButton(),
-                    FoodCartButton(),
+                    ProfileButton(),
                   ],
                   elevation: 0,
                 ),
@@ -47,7 +46,7 @@ class MenuPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: const [
               PhoneCallButton(),
-              FoodCartButton(),
+              ProfileButton(),
             ],
           ),
           body: Column(

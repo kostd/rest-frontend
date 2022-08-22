@@ -7,8 +7,10 @@ import 'package:logging/logging.dart';
 import 'package:rest_frontend/config/theme_consts.dart';
 import 'package:rest_frontend/presentation/dialogs/error_dialog.dart';
 import 'package:rest_frontend/presentation/logic/application_cubit.dart';
+import 'package:rest_frontend/presentation/pages/about_page.dart';
 import 'package:rest_frontend/presentation/pages/dish_page.dart';
 import 'package:rest_frontend/presentation/pages/menu_page.dart';
+import 'package:rest_frontend/presentation/pages/profile_page.dart';
 
 import 'injector.dart';
 import 'presentation/state/application_state.dart';
@@ -43,13 +45,11 @@ class MyApp extends StatelessWidget {
 
   /// карта всех маршрутов. Если сделал новую страничку, добавь маршрут к ней суда
   final Map<String, Widget> staticRoutes = {
-    '/': const MenuPage(
-      title: 'Ресторан "Наше время"',
-    ),
-    MenuPage.routeName: const MenuPage(
-      title: 'Ресторан "Наше время"',
-    ),
+    '/': const MenuPage(),
+    MenuPage.routeName: const MenuPage(),
     DishPage.routeName: const DishPage(title: "Блюдо ресторана Наше Время>"),
+    ProfilePage.routeName: ProfilePage(),
+    AboutPage.routeName: const AboutPage(),
   };
 
   @override
