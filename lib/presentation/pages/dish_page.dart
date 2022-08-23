@@ -19,8 +19,7 @@ import '../widgets/reflowing_scaffold.dart';
 class DishPage extends StatefulWidget {
   static const String routeName = 'dish';
 
-  const DishPage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const DishPage({Key? key}) : super(key: key);
 
   @override
   _DishPageState createState() => _DishPageState();

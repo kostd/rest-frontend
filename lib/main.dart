@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
   final Map<String, Widget> staticRoutes = {
     '/': const MenuPage(),
     MenuPage.routeName: const MenuPage(),
-    DishPage.routeName: const DishPage(title: "Блюдо ресторана Наше Время>"),
+    DishPage.routeName: const DishPage(),
     ProfilePage.routeName: ProfilePage(),
     AboutPage.routeName: const AboutPage(),
   };
