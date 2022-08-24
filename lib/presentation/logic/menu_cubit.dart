@@ -26,13 +26,30 @@ class MenuCubit extends Cubit<MenuState> {
     List<Dish> dishes =
         categories.isNotEmpty ? categories.first.dishes : List.of({});
     emit(MenuState(
-      categories: categories,
+      categories: _addUberCategory(categories),
       selectedCategory:
           categories.isNotEmpty ? categories.first : Category.emptyCategory,
       searchText: "",
       dishes: dishes,
       selectedDish: dishes.isNotEmpty ? dishes.first : Dish.emptyDish,
     ));
+  }
+
+  /// добавит uber-категорию "все меню", чтобы можно было в списке просмотреть блюда всех категорий
+  List<Category> _addUberCategory(List<Category> categories) {
+    Set<Dish> allDishes = Set.of({});
+    for (Category category in categories) {
+      // Dish extends Equitable, то есть equals должен работать. Поэтому дубликатов не будет.
+      allDishes.addAll(category.dishes);
+    }
+    Category uberCategory = Category(
+        name: "Все меню",
+        desc: "Приведены все блюда ресторана",
+        dishes: List.of(allDishes),
+        iconPath: "images/categories/menu.png");
+    List<Category> result = List.of(categories);
+    result.add(uberCategory);
+    return result;
   }
 
   /// фильтровать блюда по тексту, введенному в поле поиска

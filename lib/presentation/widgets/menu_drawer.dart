@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:google_language_fonts/google_language_fonts.dart';
+import 'package:rest_frontend/presentation/pages/menu_page.dart';
 import 'package:rest_frontend/presentation/state/menu_state.dart';
 
 import '../../config/adaptive.dart';
@@ -62,15 +63,9 @@ class MenuDrawer extends StatelessWidget {
                                 _menuCubit.selectCategory(category);
                                 Scaffold.of(context).closeDrawer();
                                 // если drawer открыли не со страницы списка (могли например открыть со страницы блюда),
-                                // перейдем на страницу списка(она у нас дефолтная, homePage)
+                                // перейдем на страницу списка
                                 GetDelegate getDelegate = Get.find();
-                                getDelegate.canPopPage().then(
-                                  (value) {
-                                    if (value) {
-                                      getDelegate.popRoute();
-                                    }
-                                  },
-                                );
+                                getDelegate.toNamed(MenuPage.routeName);
                               },
                               child: Text.rich(
                                 TextSpan(children: [

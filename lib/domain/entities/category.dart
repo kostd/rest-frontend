@@ -1,10 +1,12 @@
+import 'package:equatable/equatable.dart';
+
 import 'dish.dart';
 
 /// Категория(группа) блюд, например, "горячее" или "безалкогольные напитки"
 /// В категорию входят блюда. Одно блюдо может входить в разные категории
 /// (например, "холодный квас" может входить в "прохладительные напитки" и в "новинки"
 /// Перечень категорий (в отличие от тегов, которых пока нет) меняется довольно редко.
-class Category {
+class Category extends Equatable {
   /// название
   final String name;
 
@@ -20,13 +22,18 @@ class Category {
   /// блюда, входящие в категорию.
   /// Отношение между блюдом и категорией со стороны блюда на клиенте не поддерживаем, ибо вроде не надо
   /// Оно есть на сервере для обеспечения консистентности.
-  List<Dish> dishes = <Dish>[];
+  final List<Dish> dishes;
 
-  Category(
+  const Category(
       {required this.name,
       required this.desc,
       this.iconPath,
       this.dishes = const <Dish>[]});
 
-  static final emptyCategory = Category(name: "", desc: "");
+  static const emptyCategory = Category(name: "", desc: "");
+
+  @override
+  List<Object?> get props {
+    return List.of({name, desc, iconPath, dishes});
+  }
 }
