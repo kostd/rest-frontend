@@ -11,6 +11,7 @@ class FoodCartButton extends StatelessWidget {
         // пока корзина не реализована, воспользуемся кнопкой для получения отчета об ошибке
         showErrorReportDialog();
       },
+      iconSize: 8,
       icon: Image.asset(
         "images/foodcart.png",
         color: Theme.of(context).iconTheme.color,

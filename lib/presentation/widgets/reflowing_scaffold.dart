@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../config/adaptive.dart';
-import 'bars/bottom_bar.dart';
 import 'menu_drawer.dart';
 
 ///*******************************************************************************
@@ -34,6 +33,8 @@ class ReflowingScaffold extends StatelessWidget {
   final double leftWidth;
   final double bodyWidth;
   final double rightWidth;
+  final Widget? drawer;
+  final Widget? endDrawer;
 
   final Widget? bottomNavigationBar = null;
 
@@ -51,10 +52,8 @@ class ReflowingScaffold extends StatelessWidget {
     this.leftWidth = 250,
     this.bodyWidth = 585,
     this.rightWidth = 180,
-    //  bottomBar наш Scaffold больше не получает, т.к. имеет Drawer-аналог только для BottomButtonBar
-    // #TODO: а хорошо бы на вход получать список действий, а-ля BottomButtonBar.mainActionList
-    // и уже по нему генерить и подвал, и Drawer
-    //this.bottomNavigationBar
+    this.drawer,
+    this.endDrawer,
   }) : super(key: key);
 
   @override
@@ -111,10 +110,7 @@ class ReflowingScaffold extends StatelessWidget {
             ),
           )
         : Scaffold(
-            appBar: appBar,
-            body: body,
-            drawer: Card(child: MenuDrawer()),
-            bottomNavigationBar: bottomNavigationBar ?? const BottomBar());
+            appBar: appBar, body: body, drawer: drawer, endDrawer: endDrawer);
   }
 }
 

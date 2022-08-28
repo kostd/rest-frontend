@@ -3,6 +3,7 @@ import 'package:rest_frontend/data/repositories/category_repository_impl.dart';
 import 'package:rest_frontend/domain/repositories/category_repository.dart';
 import 'package:rest_frontend/presentation/logic/application_cubit.dart';
 import 'package:rest_frontend/presentation/logic/auth_cubit.dart';
+import 'package:rest_frontend/presentation/logic/cart_cubit.dart';
 import 'package:rest_frontend/presentation/logic/menu_cubit.dart';
 
 import 'data/fixtures/category_fixture.dart';
@@ -25,4 +26,6 @@ void initializeDependencies() {
   Get.put(AuthCubit());
   // #TODO:  в примерах инициализация вызывается на страницах, внутри атрибута create у BlocProvider`а
   Get.put(MenuCubit()..init());
+
+  Get.put(CartCubit());
 }

@@ -20,7 +20,8 @@ class MenuDrawer extends StatelessWidget {
   final MenuCubit _menuCubit = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Card(
+        child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Row(
@@ -102,6 +103,6 @@ class MenuDrawer extends StatelessWidget {
                       .toList());
             })
       ],
-    );
+    ));
   }
 }

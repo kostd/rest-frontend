@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:get/get.dart';
 import 'package:rest_frontend/presentation/logic/menu_cubit.dart';
 import 'package:rest_frontend/presentation/state/menu_state.dart';
+import 'package:rest_frontend/presentation/widgets/bars/food_cart_bar.dart';
 import 'package:rest_frontend/presentation/widgets/buttons/menu_button.dart';
 import 'package:rest_frontend/presentation/widgets/buttons/phone_call_button.dart';
 import 'package:rest_frontend/presentation/widgets/buttons/profile_button.dart';
+import 'package:rest_frontend/presentation/widgets/cart_drawer.dart';
 import 'package:rest_frontend/presentation/widgets/logo_our_times.dart';
+import 'package:rest_frontend/presentation/widgets/menu_drawer.dart';
 
 import '../../config/adaptive.dart';
 import '../widgets/bars/search_bar.dart';
@@ -49,15 +53,27 @@ class MenuPage extends StatelessWidget {
               ProfileButton(),
             ],
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              if (!(isDisplayDesktop(context))) SearchBar(),
-              Expanded(
-                child: MenuList(),
-              ),
-            ],
+          body: BottomBar(
+            body: (context, controller) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if (!(isDisplayDesktop(context))) SearchBar(),
+                  Expanded(
+                    child: MenuList(),
+                  ),
+                ],
+              );
+            },
+            barColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
+            bottom: 0,
+            width: MediaQuery.of(context).size.width,
+            // #TODO: скролл подключен не совсем полноценно, поэтому это не работает (оно  и так по дефолту)
+            // hideOnScroll: true,
+            child: FoodCartBar(),
           ),
+          drawer: MenuDrawer(),
+          endDrawer: CartDrawer(),
         );
       },
     );
